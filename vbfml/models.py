@@ -39,8 +39,7 @@ def sequential_dense_model(
     model.add(
         Dense(
             n_nodes[0],
-            input_dim=n_features,
-            activation="relu",
+            input_dim=n_features
         )
     )
 
