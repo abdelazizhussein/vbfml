@@ -77,7 +77,7 @@ dataset_labels = {
 datasets = select_and_label_datasets(all_datasets, dataset_labels)
 for dataset_info in datasets:
     if re.match(dataset_labels["v_qcd_nlo_17"], dataset_info.name):
-        dataset_info.n_events = 0.1 * dataset_info.n_events
+        dataset_info.n_events = 0.02 * dataset_info.n_events
 features = [
     "mjj",
     "dphijj",
@@ -89,10 +89,10 @@ features = [
     # "dphi_ak40_met",
     # "dphi_ak41_met",
     # "ht",
-    "leadak4_pt",
-    "leadak4_eta",
-    "trailak4_pt",
-    "trailak4_eta",
+    # "leadak4_pt",
+    # "leadak4_eta",
+    # "trailak4_pt",
+    # "trailak4_eta",
     # "leadak4_mjjmax_pt",
     # "leadak4_mjjmax_eta",
     # "trailak4_mjjmax_pt",
