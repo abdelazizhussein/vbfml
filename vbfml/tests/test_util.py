@@ -32,3 +32,16 @@ class TestMultiBatchBuffer(TestCase):
             self.assertTrue(index in self.buffer)
             df = self.buffer.get_batch_df(index)
             self.assertEqual(len(df.columns), len(self.df.columns))
+
+    def test_batch_values(self):
+        self.buffer.set_multibatch(self.df, min_batch=0)
+        batch_df_0 = self.buffer.get_batch_df(0)
+        self.assertEqual(len(batch_df_0), self.buffer.batch_size)
+        self.assertListEqual(list(batch_df_0["a"]), list(range(self.buffer.batch_size)))
+
+        batch_df_1 = self.buffer.get_batch_df(1)
+        self.assertEqual(len(batch_df_1), self.buffer.batch_size)
+        self.assertListEqual(
+            list(batch_df_1["a"]),
+            list(range(self.buffer.batch_size, 2 * self.buffer.batch_size)),
+        )

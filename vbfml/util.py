@@ -131,6 +131,6 @@ class MultiBatchBuffer:
         if not batch_index in self:
             raise IndexError(f"Batch index '{batch_index}' not in current buffer.")
 
-        row_start = batch_index - self.min_batch
+        row_start = (batch_index - self.min_batch) * self.batch_size
         row_stop = min(row_start + self.batch_size, len(self.df))
-        return self.df.loc[row_start:row_stop]
+        return self.df.iloc[row_start:row_stop]
