@@ -108,12 +108,19 @@ class MultiBatchBuffer:
     min_batch: int = -1
     max_batch: int = -1
 
-    def set_multibatch(self, df: pd.DataFrame, min_batch: int):
+    def set_multibatch(self, df: pd.DataFrame, min_batch: int) -> None:
+        """
+        Stores a data frame containing multiple batches worth of data
+
+        The `min_batch` argument allows to set a starting offset in
+        units of batches.
+        """
         self.df = df
         self.min_batch = min_batch
         self.max_batch = min_batch + len(df) // self.batch_size
 
-    def __contains__(self, batch_index):
+    def __contains__(self, batch_index: int) -> bool:
+        """Logic for checking whether a batch index is available in the buffer"""
         if self.df is None:
             return False
         if not len(self.df):
@@ -122,12 +129,14 @@ class MultiBatchBuffer:
             return False
         return self.min_batch <= batch_index <= self.max_batch
 
-    def clear(self):
+    def clear(self) -> None:
+        """Reset the buffer to empty."""
         self.df = None
         self.min_batch = -1
         self.max_batch = -1
 
-    def get_batch_df(self, batch_index):
+    def get_batch_df(self, batch_index: int) -> pd.DataFrame:
+        """Retrieve a batch from the buffer."""
         if not batch_index in self:
             raise IndexError(f"Batch index '{batch_index}' not in current buffer.")
 
