@@ -70,18 +70,19 @@ def get_weight_integral_by_label(sequence: MultiDatasetSequence) -> Dict[str, fl
     return integrals
 
 
-def normalize_classes(sequence: MultiDatasetSequence) -> None:
+def normalize_classes(
+    sequence: MultiDatasetSequence, target_integral: float = 1
+) -> None:
     """Changes data set weights in-place so that all classes have same integral."""
     label_to_weight_dict = get_weight_integral_by_label(sequence)
     for dataset_obj in sequence.datasets.values():
         weight = label_to_weight_dict[dataset_obj.label]
-        dataset_obj.weight = dataset_obj.weight / weight
+        dataset_obj.weight = target_integral * dataset_obj.weight / weight
 
 
 def generate_callbacks_for_profiling() -> None:
     """
     Callbacks for profiling of keras training.
-
     See https://www.tensorflow.org/tensorboard/tensorboard_profiling_keras
     """
 
@@ -121,7 +122,6 @@ def select_and_label_datasets(
 ) -> List[DatasetInfo]:
     """
     Slim down a list of datasets and apply labeling.
-
     Labels is a dictionary that maps a new target label name to a regular
     expression matching data set names. Only data sets matching one of the
     regular expressions are returned. The labels of these data sets are
@@ -147,7 +147,6 @@ def append_history(
 ) -> Dict[str, List[float]]:
     """
     Append keras training histories.
-
     The second history is appended to the first one, and the combined history is returned.
     """
     new_history = {}
